@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Navbar Component</title>
+</head>
+<body>
+<!-- Navbar -->
+<nav th:fragment="navbar" class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl"
+     id="navbarBlur"
+     navbar-scroll="true">
+    <div class="container-fluid py-1 px-3">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+                <li class="breadcrumb-item text-sm opacity-5 text-dark">Pages</li>
+                <li class="breadcrumb-item text-sm text-dark active pageSpecific" aria-current="page"></li>
+            </ol>
+            <h6 class="font-weight-bolder mb-0 pageSpecific"></h6>
+        </nav>
+            <div th:if="${!#request.getRequestURL().toString().contains('dashboard')
+                        && !#request.getRequestURL().toString().contains('orderMNG')}" class="ms-md-auto pe-md-3 d-flex align-items-center">
+                <div class="input-group input-group-outline">
+                    <form action="/admin/search" method="post">
+                        <input type="text" class="form-control" name="searchValue" placeholder="Type here..." autofocus>
+                        <input name="currentUrl" th:value="${#request.getRequestURL().toString()}" hidden="hidden">
+                        <input type="submit" hidden="hidden">
+                    </form>
+                </div>
+            </div>
+    </div>
+</nav>
+<!-- End Navbar -->
+</body>
+</html>

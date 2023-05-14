@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User Navbar Component</title>
+</head>
+<body>
+<!-- Navbar Start -->
+<div th:fragment="navbar" class="container-fluid p-0 nav-bar">
+    <nav class="navbar navbar-expand-lg bg-none navbar-dark py-3">
+        <a href="/" class="navbar-brand px-lg-4 m-0">
+            <h1 class="m-0 display-4 text-uppercase text-white">KOFFE</h1>
+        </a>
+        <button type="button" class="navbar-toggler position-relative" data-toggle="collapse" data-target="#navbarCollapse">
+            <div th:if="${!userCart.isEmpty()}" class="bg-danger position-absolute rounded-circle" style="width: 13px; height: 13px; top: 5px; right: 10px;"></div>
+            <img th:src="${user != null && user.getAvatar() != null ? '/images/userPages/' + user.getAvatar() : '/images/userPages/default-avatar.jpg'}"
+                 width="40" height="40" class="rounded-circle">
+        </button>
+        <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
+            <div class="navbar-nav ml-auto p-4">
+                <div class="navbar-nav ml-auto p-4 justify-content-between align-items-end">
+                    <a href="/profile" class="nav-item nav-link d-none d-sm-block d-lg-none">Personal Info</a>
+                    <a href="/cart" class="nav-item nav-link d-none d-sm-block d-lg-none position-relative">
+                        <span th:if="${!userCart.isEmpty()}" th:text="${userCart.size()}" class="badge rounded-pill badge-notification bg-white text-center position-absolute" style="font-size: 10px; top: 0; right: 0; color: #0a0706"></span>
+                        Cart</a>
+                    <a href="/signin" class="nav-item nav-link d-none d-sm-block d-lg-none">Sign In</a>
+                    <a href="/signin" class="nav-item nav-link d-none d-sm-block d-lg-none">Sign Out</a>
+                </div>
+                <div class="navbar-nav ml-auto p-4 align-items-end align-items-lg-center">
+                    <a id="nav-home" href="/" class="nav-item nav-link">Home</a>
+                    <a id="nav-about" href="/about" class="nav-item nav-link">About</a>
+                    <a id="nav-menu" href="/menu" class="nav-item nav-link">Menu</a>
+                    <a id="nav-reservation" href="/reservation" class="nav-item nav-link">Reservation</a>
+                    <a th:if="${user == null}" id="nav-signin" href="/signin" class="nav-item nav-link d-none d-lg-block">Sign In</a>
+
+                    <div th:if="${user != null}" class="btn-group d-none d-lg-block">
+                        <div class="nav-link dropdown-toggle position-relative" id="navbarDropdownMenuLink" role="button"
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <div th:if="${!userCart.isEmpty()}" class="bg-danger position-absolute rounded-circle" style="width: 13px; height: 13px; top: 5px; right: 30px;"></div>
+                            <img th:src="${user != null && user.getAvatar() != null ? '/images/userPages/' + user.getAvatar() : '/images/userPages/default-avatar.jpg'}"
+                                 width="40" height="40" class="rounded-circle">
+                        </div>
+                        <div class="dropdown-menu dropdown-menu-right rounded text-right">
+                            <a href="/profile" role="button" class="dropdown-item">Personal Info</a>
+                            <a href="/cart" role="button" class="dropdown-item position-relative">
+                                <span th:if="${!userCart.isEmpty()}" th:text="${userCart.size()}" class="badge rounded-pill badge-notification bg-danger text-center position-absolute" style="font-size: 10px; top: 0; right: 10px"></span>
+                                Cart</a>
+                            <a href="/signout" role="button" class="dropdown-item">Sign Out</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </nav>
+</div>
+<!-- Navbar End -->
+</body>
+</html>

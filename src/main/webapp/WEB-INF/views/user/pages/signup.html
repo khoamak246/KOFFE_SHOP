@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>KOFFE - Coffee Sign Up</title>
+    <th:block th:insert="/components/user/cdnCssComponent :: cdnCss"></th:block>
+</head>
+<body>
+<section class="vh-100" style="background-color: #9A616D;">
+    <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100 w-100">
+            <div class="col col-xl-10 h-100">
+                <div class="card h-100" style="border-radius: 1rem;">
+                    <div class="row g-0 h-100">
+                        <div class="col-md-6 col-lg-5 d-none d-md-block h-100 position-relative">
+                            <img th:src="@{/images/userPages/login-img.jpeg}"
+                                 alt="login form" style="border-radius: 1rem 0 0 1rem; max-width: 100%; height: 100%" />
+                        </div>
+                        <div class="col-md-6 col-lg-7 d-flex align-items-center">
+                            <div class="card-body p-4 p-lg-5 text-black">
+
+                                <form id="sigUpForm" th:action="@{/signup}" th:object="${user}" method="post">
+                                    <div class="d-flex flex-column align-items-center mb-2 pb-1 justify-content-center">
+                                        <span class="h1 fw-bold mb-0">Register</span>
+                                        <p th:if="${wrongCode == 403}" class="small text-danger">OOP! Your phone number are already exist!</p>
+                                    </div>
+                                    <div class="form-outline mb-1">
+                                        <label class="form-label small" for="fullNameInput">Full Name</label>
+                                        <input type="text" id="fullNameInput" class="form-control form-control-lg" th:field="*{fullName}" required="required"/>
+                                        <p id="messageFullName" class="small text-danger">OOP! Something wrong in your name!</p>
+                                    </div>
+
+                                    <div class="form-outline mb-1">
+                                        <label class="form-label small" for="phoneNumberInput">Phone Number</label>
+                                        <input type="text" id="phoneNumberInput" class="form-control form-control-lg" th:field="*{phoneNumber}" maxlength="10" required="required"/>
+                                        <p id="phoneNumberMessage"  class="small text-danger">OOP! Something wrong in your phone number!</p>
+                                    </div>
+
+                                    <div class="form-outline mb-4">
+                                        <label class="form-label small" for="passwordInput">Password</label>
+                                        <input type="password" id="passwordInput" class="form-control form-control-lg" th:field="*{password}" required="required"/>
+                                        <p id="passwordMessage" class="small text-danger">OOP! Your password need at least 6 letter and have upper letter!</p>
+                                    </div>
+
+                                    <div class="pt-1 mb-4">
+                                        <button id="submitBtn" class="btn btn-dark btn-lg btn-block" type="submit">Sign up</button>
+                                    </div>
+
+                                    <p style="color: #393f81;">Already have an account? <a href="/signin" style="color: #393f81;">Sign In</a></p>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<th:block th:insert="/components/user/cssScriptComponents :: cssScript"></th:block>
+<script>
+    $("#messageFullName").hide();
+    $("#phoneNumberMessage").hide();
+    $("#passwordMessage").hide();
+    $("#submitBtn").click(function(e) {
+        e.preventDefault();
+        let fullNamePattern = /^([A-za-z]+\s){1,}[a-zA-z]+$/
+        let passwordPattern = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9]{6,}$/
+        let phoneNumberPattern = /^[0-9]{10}$/;
+        $("#messageFullName").hide();
+        $("#phoneNumberMessage").hide();
+        $("#passwordMessage").hide();
+        let fullNameInput = $("#fullNameInput").val();
+        let passwordInput = $("#passwordInput").val();
+        let phoneNumberInput = $("#phoneNumberInput").val();
+        if (!fullNamePattern.test(fullNameInput)) {
+            console.log("in1")
+            $("#messageFullName").show();
+        } else if (!phoneNumberPattern.test(phoneNumberInput)) {
+            console.log("in2")
+            $("#phoneNumberMessage").show();
+
+        } else if (!passwordPattern.test(passwordInput)) {
+            console.log("in3")
+            $("#passwordMessage").show();
+
+        } else {
+            $("#sigUpForm").submit();
+        }
+    })
+
+
+</script>
+</body>
+</html>

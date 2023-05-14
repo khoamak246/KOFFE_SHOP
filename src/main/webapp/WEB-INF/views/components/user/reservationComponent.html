@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User Reservation Component</title>
+</head>
+<body>
+<div th:fragment="reservation" class="container-fluid my-5">
+  <div class="container">
+    <div class="reservation position-relative overlay-top overlay-bottom">
+      <div class="row align-items-center">
+        <div class="col-lg-6 my-5 my-lg-0">
+          <div class="p-5">
+            <div class="mb-4">
+              <h1 class="display-3 text-primary">30% OFF</h1>
+              <h1 class="text-white">For Online Reservation</h1>
+            </div>
+            <p class="text-white">Let's start to reserve a place for you to enjoy the hot, delicious, first-class coffee. Contact us now and you will receive many attractive offers</p>
+            <ul class="list-inline text-white m-0">
+              <li class="py-2"><i class="fa fa-check text-primary mr-3"></i>Enter information</li>
+              <li class="py-2"><i class="fa fa-check text-primary mr-3"></i>Click the button to finish</li>
+              <li class="py-2"><i class="fa fa-check text-primary mr-3"></i>Waiting for incoming call to confirm</li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="text-center p-5" style="background: rgba(51, 33, 29, .8);">
+            <h1 class="text-white mb-4 mt-5">Book Your Table</h1>
+            <p th:if="${successMessage == 'OK'}" class="text-white">Booking successfully, please check your phone, we will call you back in a few minutes!</p>
+            <form class="mb-5" th:action="@{/reservation}" method="post">
+              <div class="form-group">
+                <input type="text" class="form-control bg-transparent border-primary p-4 text-white" placeholder="Name"
+                       required="required" name="fullName" th:value="${user != null ? user.getFullName() : ''}" autocomplete="off"/>
+                <p th:if="${wrongCode == 400}" class="small text-white mt-1">OOP! Something wrong with your name!</p>
+              </div>
+              <div class="form-group">
+                <input type="text" class="form-control bg-transparent border-primary p-4 text-white" placeholder="Phone Number"
+                       required="required" name="phoneNumber" th:value="${user != null ? user.getPhoneNumber() : ''}" autocomplete="off"/>
+                <p th:if="${wrongCode == 401}" class="small text-white mt-1">OOP! Something wrong with your phone number!</p>
+              </div>
+              <div class="form-group">
+                <div class="date" id="date" data-target-input="nearest">
+                  <input type="text" class="form-control bg-transparent border-primary p-4 datetimepicker-input text-white" placeholder="Date" data-target="#date" data-toggle="datetimepicker" name="date" required="required" autocomplete="off"/>
+                  <p th:if="${wrongCode == 402}" class="small text-white mt-1">OOP! Your input time need after one hour from now!</p>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="time" id="time" data-target-input="nearest">
+                  <input type="text" class="form-control bg-transparent border-primary p-4 datetimepicker-input text-white" placeholder="Time" data-target="#time" data-toggle="datetimepicker" name="time" required="required" autocomplete="off"/>
+                  <p th:if="${wrongCode == 402}" class="small text-white mt-1">OOP! Your input time need after one hour from now!</p>
+                </div>
+              </div>
+              <div class="form-group">
+                <select class="custom-select bg-transparent border-primary px-4 text-white" style="height: 49px;" name="amountPeople">
+                  <option value="1" class="text-dark">Come With 1 people</option>
+                  <option value="2" class="text-dark">With 2</option>
+                  <option value="3" class="text-dark">With 3</option>
+                  <option value="3" class="text-dark">With 4</option>
+                </select>
+              </div>
+
+              <div>
+                <button class="btn btn-primary btn-block font-weight-bold py-3" type="submit">Book Now</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

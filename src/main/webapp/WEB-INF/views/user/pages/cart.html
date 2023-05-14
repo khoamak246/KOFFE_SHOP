@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Cart</title>
+    <th:block th:insert="/components/user/cdnCssComponent :: cdnCss"></th:block>
+    <style>
+        @media (min-width: 1025px) {
+            .h-custom {
+                height: 100vh !important;
+            }
+        }
+
+        .card-registration .select-input.form-control[readonly]:not([disabled]) {
+            font-size: 1rem;
+            line-height: 2.15;
+            padding-left: .75em;
+            padding-right: .75em;
+        }
+
+        .card-registration .select-arrow {
+            top: 13px;
+        }
+
+        .bg-grey {
+            background-color: #eae8e8;
+        }
+
+        @media (min-width: 992px) {
+            .card-registration-2 .bg-grey {
+                border-top-right-radius: 16px;
+                border-bottom-right-radius: 16px;
+            }
+        }
+
+        @media (max-width: 991px) {
+            .card-registration-2 .bg-grey {
+                border-bottom-left-radius: 16px;
+                border-bottom-right-radius: 16px;
+            }
+
+            #checkOutArea {
+                background-color: transparent;
+            }
+
+        }
+    </style>
+</head>
+<body>
+<section class="h-100"
+         style="background-color: #d2c9ff; background-image: url(https://img.freepik.com/free-vector/realistic-coffee-background-with-drawings_79603-607.jpg?w=2000); background-size: cover; background-repeat: no-repeat">
+    <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <!--      EMPTY CART -->
+            <div th:if="${userCart.isEmpty()}"
+                 class="max-width-300 w-100 h-100 d-flex justify-content-center align-items-center rounded-lg overflow-hidden"
+                 style="position: relative;">
+                <a href="/" class="d-flex align-items-center position-absolute text-danger text-decoration-none"
+                   style="top: 5%; left: 18%; font-size: 30px">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
+                         class="bi bi-house" viewBox="0 0 16 16">
+                        <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.707 1.5ZM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5 5 5Z"/>
+                    </svg>
+                    Home
+                </a>
+                <div style="position: absolute; top: 30%; left: 25%; text-space: 5px" class="d-flex flex-column justify-content-center align-items-center">
+                    <h1>Nothing to see here!</h1>
+                    <h4 th:if="${errorMessage == null}" class="text-danger text-center">OOP! Your cart currently
+                        have
+                        non-commercial products!</h4>
+                    <h4 th:if="${errorMessage == null}" class="text-danger text-center">We have removed them from
+                        the
+                        cart!</h4>
+                    <h4 th:if="${errorMessage == null}" class="text-danger text-center">Sorry for the
+                        inconvenience!</h4>
+                </div>
+                <img src="https://cdn.dribbble.com/users/122393/screenshots/6911348/cristelrossignolbn2-dog.jpg">
+            </div>
+            <div class="col-12">
+
+                <!--      HAVING CART -->
+                <div th:if="${!userCart.isEmpty()}" class="card card-registration card-registration-2"
+                     style="border-radius: 15px;">
+                    <div class="card-body p-0">
+                        <div class="row g-0">
+                            <div class="col-lg-8">
+                                <div class="p-5">
+                                    <div class="d-flex justify-content-between align-items-center mb-5">
+                                        <h1 class="fw-bold mb-0 text-black">Shopping Cart</h1>
+                                        <h6 th:text="${userCart.size() > 1 ? userCart.size() + ' items' : userCart.size() + ' item'}"
+                                            class="mb-0 text-muted">3 items</h6>
+                                    </div>
+                                    <h4 th:if="${errorMessage != null}" class="text-danger text-center small">OOP! Your
+                                        cart currently have
+                                        non-commercial products!</h4>
+                                    <h4 th:if="${errorMessage != null}" class="text-danger text-center small">We have
+                                        removed them from the
+                                        cart!</h4>
+                                    <h4 th:if="${errorMessage != null}" class="text-danger text-center small">Sorry for
+                                        the inconvenience!</h4>
+                                    <div class="w-100 d-flex flex-lg-row flex-column justify-content-lg-between justify-content-start align-items-lg-center align-items-start gap-2">
+                                        <input type="text" name="fullName" th:value="${user.getFullName()}"
+                                               style="width: 50%; padding: 2px; border: none; outline: none"
+                                               readonly="readonly"/>
+                                        <input type="text" name="phoneNumber" th:value="${user.getPhoneNumber()}"
+                                               class="text-lg-right text-left"
+                                               style="width: 50%; padding: 2px; border: none; outline: none"
+                                               readonly="readonly"/>
+                                    </div>
+
+                                    <div class="w-100">
+                                        <input id="inputAddress" type="text" name="addressInput"
+                                               th:value="${userAddress != null ? userAddress.getLocation() : ''}"
+                                               style="width: 100%; padding: 2px;" maxlength="255"
+                                               placeholder="Enter address here..."
+                                               required="required"/>
+                                        <h6 id="addressMessage" class="small text-danger"></h6>
+                                    </div>
+                                    <hr class="my-4">
+
+                                    <th:block th:each="cart: ${userCart}">
+
+                                        <div class="row mb-4 d-flex justify-content-between align-items-center">
+                                            <div class="col-md-2 col-lg-2 col-xl-2">
+                                                <img
+                                                        th:src="@{'/images/userPages/' + ${cart.getAvatar()}}"
+                                                        class="img-fluid rounded-3">
+                                            </div>
+                                            <div class="col-md-3 col-lg-3 col-xl-3">
+                                                <h6 th:text="${cart.getProductName()}" class="text-muted"></h6>
+                                                <h6 th:text="${cart.getSizeDetail() + ' Size'}"
+                                                    class="text-black mb-0"></h6>
+                                            </div>
+                                            <form method="post">
+                                                <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
+                                                    <button class="btn btn-link px-2" type="submit"
+                                                            formaction="/cart/update/minusByOne" formmethod="post">
+                                                        <i class="fas fa-minus"></i>
+                                                    </button>
+                                                    <input type="text" name="cartId" th:value="${cart.getCartId()}"
+                                                           hidden="hidden">
+                                                    <input id="form0" min="1" name="quantity"
+                                                           th:value="${cart.getQuantity()}" type="number"
+                                                           style="width: 40px" disabled/>
+
+                                                    <button class="btn btn-link px-2" type="submit"
+                                                            formaction="/cart/update/plusByOne" formmethod="post">
+                                                        <i class="fas fa-plus"></i>
+                                                    </button>
+                                                </div>
+                                            </form>
+                                            <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
+                                                <h6 th:text="${'€' + cart.getTotal()}" class="mb-0"></h6>
+                                            </div>
+                                            <div class="col-md-1 col-lg-1 col-xl-1 text-end">
+                                                <a th:href="${'/cart/delete?cartId=' + cart.getCartId()}"
+                                                   class="text-muted"><i class="fas fa-times"></i></a>
+                                            </div>
+                                        </div>
+
+                                        <hr class="my-4">
+
+                                    </th:block>
+
+
+                                    <div class="pt-5 d-flex flex-column justify-content-center">
+                                        <h6 class="mb-0">
+                                            <a href="/menu" class="text-body">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                     fill="currentColor" class="bi bi-caret-left" viewBox="0 0 16 16">
+                                                    <path d="M10 12.796V3.204L4.519 8 10 12.796zm-.659.753-5.48-4.796a1 1 0 0 1 0-1.506l5.48-4.796A1 1 0 0 1 11 3.204v9.592a1 1 0 0 1-1.659.753z"/>
+                                                </svg>
+                                                Back to shop</a>
+                                        </h6>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="checkOutArea" class="col-lg-4 bg-grey">
+                                <div class="p-5 bg-grey">
+                                    <h3 class="fw-bold mb-5 mt-2 pt-1">Summary</h3>
+                                    <hr class="my-4">
+
+                                    <form id="checkOutForm" class="mt-4" method="post" action="/order">
+                                        <input id="submitAddress" type="text" name="address"
+                                               th:value="${userAddress != null ? userAddress.getLocation() : ''}"
+                                               hidden="hidden"/>
+
+                                        <h5 class="text-uppercase mb-3">Shipping</h5>
+
+                                        <div class="mb-4 pb-2">
+                                            <select class="select p-1" required="required" name="cardType">
+                                                <option value="1">VISA</option>
+                                                <option value="2">American Express</option>
+                                                <option value="3">PayPal</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="form-outline form-white mb-4">
+                                            <input type="text" id="typeName" class="form-control form-control-lg"
+                                                   size="17"
+                                                   placeholder="Cardholder's Name" required="required"
+                                                   name="cardholder"/>
+                                            <label class="form-label" for="typeName">Cardholder's Name</label>
+                                        </div>
+
+                                        <div class="form-outline form-white mb-4">
+                                            <input type="text" id="typeText" class="form-control form-control-lg"
+                                                   size="17"
+                                                   placeholder="1234 5678 9012 3457" minlength="19" maxlength="19"
+                                                   required="required" name="cardNumber"/>
+                                            <label class="form-label" for="typeText">Card Number</label>
+                                        </div>
+
+                                        <div class="row mb-4">
+                                            <div class="col-md-6">
+                                                <div class="form-outline form-white">
+                                                    <input type="text" id="typeExp" class="form-control form-control-sm"
+                                                           placeholder="MM/YYYY" minlength="7" maxlength="7"
+                                                           name="expiration"/>
+                                                    <label class="form-label" for="typeExp">Expiration</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-outline form-white">
+                                                    <input type="password" id="typeText1"
+                                                           class="form-control form-control-sm"
+                                                           placeholder="&#9679;&#9679;&#9679;" size="1" minlength="3"
+                                                           maxlength="3" name="cvv"/>
+                                                    <label class="form-label" for="typeText1">Cvv</label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <hr class="my-4">
+
+                                        <div class="d-flex justify-content-between mb-5">
+                                            <h5 class="text-uppercase">Total price</h5>
+                                            <input type="number" th:value="${total}" name="total" hidden="hidden">
+                                            <h5 th:text="${'€ ' + total + '.00'}"></h5>
+                                        </div>
+
+                                        <button id="checkOutBtn" type="submit" class="btn btn-dark btn-block btn-lg"
+                                                data-mdb-ripple-color="dark">Check out
+                                        </button>
+                                    </form>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<th:block th:insert="/components/user/cssScriptComponents :: cssScript"></th:block>
+<script>
+    $("#inputAddress").change(function () {
+        $("#submitAddress").val($("#inputAddress").val());
+    })
+
+    $("#checkOutBtn").click(function (e) {
+        e.preventDefault();
+        let textAreaPattern = /^([A-za-z0-9.!);]+\s){1,}[a-zA-z.!);?]+$/;
+        let submitAddress = $("#submitAddress").val();
+        if (!textAreaPattern.test(submitAddress)) {
+            $("#addressMessage").text("Some thing wrong with your address!");
+        } else {
+            $("#checkOutForm").submit();
+        }
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8"/>
+    <title>Admin - Product</title>
+    <th:block th:insert="/components/admin/cdnCssComponent :: cdnCss"/>
+    <style>
+        #inputFile > input {
+            height: 100%;
+            width: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        #inputFile {
+            width: 30px;
+            height: 30px;
+            display: inline-block;
+            overflow: hidden;
+            cursor: pointer;
+
+            /*for the background, optional*/
+            background: center center no-repeat;
+            background-size: 75% 75%;
+            background-image: url(data:image/svg+xml;utf8;base64,PD94bWwgdmVyc2lvbj0iMS4wIj8+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiBoZWlnaHQ9IjUxMnB4IiB2ZXJzaW9uPSIxLjEiIHZpZXdCb3g9Ii01MyAxIDUxMSA1MTEuOTk5MDYiIHdpZHRoPSI1MTJweCI+CjxnIGlkPSJzdXJmYWNlMSI+CjxwYXRoIGQ9Ik0gMjc2LjQxMDE1NiAzLjk1NzAzMSBDIDI3NC4wNjI1IDEuNDg0Mzc1IDI3MC44NDM3NSAwIDI2Ny41MDc4MTIgMCBMIDY3Ljc3NzM0NCAwIEMgMzAuOTIxODc1IDAgMC41IDMwLjMwMDc4MSAwLjUgNjcuMTUyMzQ0IEwgMC41IDQ0NC44NDM3NSBDIDAuNSA0ODEuNjk5MjE5IDMwLjkyMTg3NSA1MTIgNjcuNzc3MzQ0IDUxMiBMIDMzOC44NjMyODEgNTEyIEMgMzc1LjcxODc1IDUxMiA0MDYuMTQwNjI1IDQ4MS42OTkyMTkgNDA2LjE0MDYyNSA0NDQuODQzNzUgTCA0MDYuMTQwNjI1IDE0NC45NDE0MDYgQyA0MDYuMTQwNjI1IDE0MS43MjY1NjIgNDA0LjY1NjI1IDEzOC42MzY3MTkgNDAyLjU1NDY4OCAxMzYuMjg1MTU2IFogTSAyNzkuOTk2MDk0IDQzLjY1NjI1IEwgMzY0LjQ2NDg0NCAxMzIuMzI4MTI1IEwgMzA5LjU1NDY4OCAxMzIuMzI4MTI1IEMgMjkzLjIzMDQ2OSAxMzIuMzI4MTI1IDI3OS45OTYwOTQgMTE5LjIxODc1IDI3OS45OTYwOTQgMTAyLjg5NDUzMSBaIE0gMzM4Ljg2MzI4MSA0ODcuMjY1NjI1IEwgNjcuNzc3MzQ0IDQ4Ny4yNjU2MjUgQyA0NC42NTIzNDQgNDg3LjI2NTYyNSAyNS4yMzQzNzUgNDY4LjA5NzY1NiAyNS4yMzQzNzUgNDQ0Ljg0Mzc1IEwgMjUuMjM0Mzc1IDY3LjE1MjM0NCBDIDI1LjIzNDM3NSA0NC4wMjczNDQgNDQuNTI3MzQ0IDI0LjczNDM3NSA2Ny43NzczNDQgMjQuNzM0Mzc1IEwgMjU1LjI2MTcxOSAyNC43MzQzNzUgTCAyNTUuMjYxNzE5IDEwMi44OTQ1MzEgQyAyNTUuMjYxNzE5IDEzMi45NDUzMTIgMjc5LjUwMzkwNiAxNTcuMDYyNSAzMDkuNTU0Njg4IDE1Ny4wNjI1IEwgMzgxLjQwNjI1IDE1Ny4wNjI1IEwgMzgxLjQwNjI1IDQ0NC44NDM3NSBDIDM4MS40MDYyNSA0NjguMDk3NjU2IDM2Mi4xMTMyODEgNDg3LjI2NTYyNSAzMzguODYzMjgxIDQ4Ny4yNjU2MjUgWiBNIDMzOC44NjMyODEgNDg3LjI2NTYyNSAiIHN0eWxlPSIgZmlsbC1ydWxlOm5vbnplcm87ZmlsbC1vcGFjaXR5OjE7IiBzdHJva2U9IiMwMDAwMDAiIGZpbGw9IiMwMDAwMDAiLz4KPHBhdGggZD0iTSAzMDUuMTAxNTYyIDQwMS45MzM1OTQgTCAxMDEuNTM5MDYyIDQwMS45MzM1OTQgQyA5NC43MzgyODEgNDAxLjkzMzU5NCA4OS4xNzE4NzUgNDA3LjQ5NjA5NCA4OS4xNzE4NzUgNDE0LjMwMDc4MSBDIDg5LjE3MTg3NSA0MjEuMTAxNTYyIDk0LjczODI4MSA0MjYuNjY3OTY5IDEwMS41MzkwNjIgNDI2LjY2Nzk2OSBMIDMwNS4yMjY1NjIgNDI2LjY2Nzk2OSBDIDMxMi4wMjczNDQgNDI2LjY2Nzk2OSAzMTcuNTkzNzUgNDIxLjEwMTU2MiAzMTcuNTkzNzUgNDE0LjMwMDc4MSBDIDMxNy41OTM3NSA0MDcuNDk2MDk0IDMxMi4wMjczNDQgNDAxLjkzMzU5NCAzMDUuMTAxNTYyIDQwMS45MzM1OTQgWiBNIDMwNS4xMDE1NjIgNDAxLjkzMzU5NCAiIHN0eWxlPSIgZmlsbC1ydWxlOm5vbnplcm87ZmlsbC1vcGFjaXR5OjE7IiBzdHJva2U9IiMwMDAwMDAiIGZpbGw9IiMwMDAwMDAiLz4KPHBhdGggZD0iTSAxNDAgMjY4Ljg2MzI4MSBMIDE5MC45NTMxMjUgMjE0LjA3NDIxOSBMIDE5MC45NTMxMjUgMzQ5LjEyNSBDIDE5MC45NTMxMjUgMzU1LjkyNTc4MSAxOTYuNTE5NTMxIDM2MS40OTIxODggMjAzLjMyMDMxMiAzNjEuNDkyMTg4IEMgMjEwLjEyNSAzNjEuNDkyMTg4IDIxNS42ODc1IDM1NS45MjU3ODEgMjE1LjY4NzUgMzQ5LjEyNSBMIDIxNS42ODc1IDIxNC4wNzQyMTkgTCAyNjYuNjQwNjI1IDI2OC44NjMyODEgQyAyNjkuMTEzMjgxIDI3MS40NTcwMzEgMjcyLjMzMjAzMSAyNzIuODIwMzEyIDI3NS42Njc5NjkgMjcyLjgyMDMxMiBDIDI3OC42MzY3MTkgMjcyLjgyMDMxMiAyODEuNzMwNDY5IDI3MS43MDcwMzEgMjg0LjA3ODEyNSAyNjkuNDgwNDY5IEMgMjg5LjAyNzM0NCAyNjQuNzgxMjUgMjg5LjM5ODQzOCAyNTYuOTg4MjgxIDI4NC42OTkyMTkgMjUyLjA0Mjk2OSBMIDIxMi4yMjY1NjIgMTc0LjI1MzkwNiBDIDIwOS44NzUgMTcxLjc4MTI1IDIwNi42NjAxNTYgMTcwLjI5Njg3NSAyMDMuMTk5MjE5IDE3MC4yOTY4NzUgQyAxOTkuNzM0Mzc1IDE3MC4yOTY4NzUgMTk2LjUxOTUzMSAxNzEuNzgxMjUgMTk0LjE3MTg3NSAxNzQuMjUzOTA2IEwgMTIxLjY5OTIxOSAyNTIuMDQyOTY5IEMgMTE3IDI1Ni45ODgyODEgMTE3LjM3MTA5NCAyNjQuOTAyMzQ0IDEyMi4zMTY0MDYgMjY5LjQ4MDQ2OSBDIDEyNy41MTE3MTkgMjc0LjE3OTY4OCAxMzUuMzAwNzgxIDI3My44MDg1OTQgMTQwIDI2OC44NjMyODEgWiBNIDE0MCAyNjguODYzMjgxICIgc3R5bGU9IiBmaWxsLXJ1bGU6bm9uemVybztmaWxsLW9wYWNpdHk6MTsiIHN0cm9rZT0iIzAwMDAwMCIgZmlsbD0iIzAwMDAwMCIvPgo8L2c+Cjwvc3ZnPgo=);
+        }
+    </style>
+</head>
+
+<body class="g-sidenav-show  bg-gray-200">
+<th:block th:insert="/components/admin/sidebarComponent :: sidebar"/>
+<main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+    <th:block th:insert="/components/admin/navbarComponent :: navbar"/>
+    <div class="container-fluid py-4">
+        <div th:if="${currentUser.getRole() != 2}" class="row">
+            <div class="col-12">
+                <div class="card my-4">
+                    <div
+                            class="card-header p-0 position-relative mt-n4 mx-3 z-index-2"
+                    >
+                        <div
+                                class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3"
+                        >
+                            <h6 class="text-white text-capitalize ps-3">Add product</h6>
+                        </div>
+                    </div>
+                    <form th:action="${editProduct != null ? '/admin/product/edit?productId=' + #request.getParameter('productId') : '/admin/product/addProduct'}" method="post" novalidate="novalidate"
+                          enctype="multipart/form-data">
+                        <input type="text" th:value="${editProduct != null ? editProduct.getAvatar() : ''}" hidden="hidden" name="currentImg" />
+                        <div class="card-body px-0 pb-2 pt-4 pb-3 mt-4 mx-3">
+                            <div class="col-12 d-flex flex-column flex-lg-row">
+                                <div class="col-lg-6 col-md-12 d-flex justify-content-center align-items-center">
+                                    <div class="col-lg-10 d-flex flex-column gap-2 justify-content-center align-items-center">
+                                        <img id="previewProductAvatar"
+                                             alt="previewImg"
+                                             class="img-thumbnail"
+                                             style="max-width: 300px"
+                                             th:src="${
+                                             editProduct != null
+                                             ? '/images/userPages/' + editProduct.getAvatar()
+                                             : 'data:image/jpeg;base64,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'}"/>
+                                        <div class="mb-3 d-flex justify-content-center align-items-center">
+                                            <span id="inputFile">
+                                                <input type="file" name="file" onchange="showPreview(event);"/>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-12 d-flex justify-content-center align-items-center">
+                                    <div class="col-lg-12 d-flex flex-column gap-2 justify-content-center align-items-center">
+                                        <div class="w-100">
+                                            <label for="productName">Name:</label>
+                                            <input
+                                                    type="text"
+                                                    id="productName"
+                                                    name="productName"
+                                                    placeholder="product name..."
+                                                    class="form-control border border-dark p-2 rounded text-sm w-100"
+                                                    th:value="${editProduct != null ? editProduct.getProductName() : ''}"
+                                            />
+                                        </div>
+                                        <div class="w-100">
+                                            <label for="productDescription">Description:</label>
+                                            <textarea
+                                                    name="productDescription"
+                                                    id="productDescription"
+                                                    cols="40"
+                                                    rows="3"
+                                                    class="form-control border border-dark px-2 rounded"
+                                                    style="resize: none; outline: none"
+                                                    placeholder="product description..."
+                                                    th:text="${editProduct != null ? editProduct.getProductDescription() : ''}"
+                                            ></textarea>
+                                        </div>
+                                        <div class="d-flex gap-2">
+                                            <div>
+                                                <label for="productPriceS">Price S:</label>
+                                                <input
+                                                        type="text"
+                                                        id="productPriceS"
+                                                        name="priceS"
+                                                        class="form-control border border-dark p-2 rounded text-sm w-100"
+                                                        placeholder="S Size..."
+                                                        th:value="${editProduct !=null ? editProduct.getPriceS() : ''}"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label for="productPriceM">Price M:</label>
+                                                <input
+                                                        type="text"
+                                                        id="productPriceM"
+                                                        name="priceM"
+                                                        class="form-control border border-dark p-2 rounded text-sm w-100"
+                                                        placeholder="M Size..."
+                                                        th:value="${editProduct !=null ? editProduct.getPriceM() : ''}"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label for="productPriceM">Price L:</label>
+                                                <input
+                                                        type="text"
+                                                        id="productPriceL"
+                                                        name="priceL"
+                                                        class="form-control border border-dark p-2 rounded text-sm w-100"
+                                                        placeholder="L Size..."
+                                                        th:value="${editProduct !=null ? editProduct.getPriceL() : ''}"
+                                                />
+                                            </div>
+                                        </div>
+                                        <div class="d-flex justify-content-end py-3 w-100"
+                                             style="cursor: pointer">
+                                            <input
+                                                    type="submit"
+                                                    class="btn btn-primary border border-dark rounded w-md-100 w-lg-50"
+                                                    style="cursor: pointer"
+                                            />
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="card my-4">
+                    <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                        <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                            <h6 class="text-white text-capitalize ps-3">Product On Sale table</h6>
+                        </div>
+                    </div>
+                    <div class="card-body px-0 pb-2">
+                        <div class="table-responsive p-0">
+                            <table class="table align-items-center mb-0">
+                                <thead>
+                                <tr>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        PRODUCT
+                                    </th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                        SIZE
+                                    </th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        PRICE
+                                    </th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        IMG
+                                    </th>
+                                    <th class="text-secondary opacity-7"></th>
+                                    <th class="text-secondary opacity-7"></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <th:block th:each="product : ${products}">
+                                    <tr th:if="${product.isStatus()}">
+                                        <td>
+                                            <div class="d-flex px-2 py-1">
+                                                <div>
+                                                    <img th:src="@{'/images/userPages/' + ${product.getProductAvatar()}}"
+                                                         class="avatar avatar-sm me-3 border-radius-lg" alt="user1">
+                                                </div>
+                                                <div class="d-flex flex-column justify-content-center">
+                                                    <h6 th:text="${product.getProductName()}" class="mb-0 text-sm"></h6>
+                                                    <p th:text="${product.getProductDescription()}"
+                                                       class="text-xs text-secondary mb-0"
+                                                       style="width: 255px; overflow: hidden;"></p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <p th:if="${product.getSizeId() == 1}"
+                                               class="text-xs font-weight-bold mb-0">S</p>
+                                            <p th:if="${product.getSizeId() == 2}"
+                                               class="text-xs font-weight-bold mb-0">M</p>
+                                            <p th:if="${product.getSizeId() == 3}"
+                                               class="text-xs font-weight-bold mb-0">L</p>
+                                        </td>
+                                        <td class="align-middle text-center text-sm">
+                                            <span th:text="${product.getPrice()}"
+                                                  class="badge badge-sm bg-gradient-success"></span>
+                                        </td>
+                                        <td class="align-middle text-center">
+                                            <span th:text="${product.getProductAvatar()}"
+                                                  class="text-secondary text-xs font-weight-bold"></span>
+                                        </td>
+                                        <td th:if="${currentUser.getRole() != 2}" class="align-middle">
+                                            <a th:href="@{'/admin/product/edit?productId=' + ${product.getProductId()}}"
+                                               class="text-secondary font-weight-bold text-xs"
+                                               data-toggle="tooltip" data-original-title="Edit user">
+                                                Edit |
+                                            </a>
+                                            <a th:href="@{'/admin/product/stopSale?productId=' + ${product.getProductId()}}"
+                                               class="text-secondary font-weight-bold text-xs"
+                                               data-toggle="tooltip" data-original-title="Edit user">
+                                                Stop Sale |
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </th:block>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="card my-4">
+                    <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                        <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                            <h6 class="text-white text-capitalize ps-3">Product On Sale table</h6>
+                        </div>
+                    </div>
+                    <div class="card-body px-0 pb-2">
+                        <div class="table-responsive p-0">
+                            <table class="table align-items-center mb-0">
+                                <thead>
+                                <tr>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        PRODUCT
+                                    </th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                        SIZE
+                                    </th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        PRICE
+                                    </th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        IMG
+                                    </th>
+                                    <th class="text-secondary opacity-7"></th>
+                                    <th class="text-secondary opacity-7"></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <th:block th:each="product : ${products}">
+                                    <tr th:if="${!product.isStatus()}">
+                                        <td>
+                                            <div class="d-flex px-2 py-1">
+                                                <div>
+                                                    <img th:src="@{'/images/userPages/' + ${product.getProductAvatar()}}"
+                                                         class="avatar avatar-sm me-3 border-radius-lg" alt="user1">
+                                                </div>
+                                                <div class="d-flex flex-column justify-content-center">
+                                                    <h6 th:text="${product.getProductName()}" class="mb-0 text-sm"></h6>
+                                                    <p th:text="${product.getProductDescription()}"
+                                                       class="text-xs text-secondary mb-0"
+                                                       style="width: 255px; overflow: hidden;"></p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <p th:if="${product.getSizeId() == 1}"
+                                               class="text-xs font-weight-bold mb-0">S</p>
+                                            <p th:if="${product.getSizeId() == 2}"
+                                               class="text-xs font-weight-bold mb-0">M</p>
+                                            <p th:if="${product.getSizeId() == 3}"
+                                               class="text-xs font-weight-bold mb-0">L</p>
+                                        </td>
+                                        <td class="align-middle text-center text-sm">
+                                            <span th:text="${product.getPrice()}"
+                                                  class="badge badge-sm bg-gradient-success"></span>
+                                        </td>
+                                        <td class="align-middle text-center">
+                                            <span th:text="${product.getProductAvatar()}"
+                                                  class="text-secondary text-xs font-weight-bold"></span>
+                                        </td>
+                                        <td th:if="${currentUser.getRole() != 2}" class="align-middle">
+                                            <a th:href="@{'/admin/product/edit?productId=' + ${product.getProductId()}}"
+                                               class="text-secondary font-weight-bold text-xs"
+                                               data-toggle="tooltip" data-original-title="Edit user">
+                                                Edit |
+                                            </a>
+                                            <a th:href="@{'/admin/product/sale?productId=' + ${product.getProductId()}}"
+                                               class="text-secondary font-weight-bold text-xs"
+                                               data-toggle="tooltip" data-original-title="Edit user">
+                                                Sale |
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </th:block>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <th:block th:insert="/components/admin/footerComponent :: footer"/>
+    </div>
+</main>
+
+<!--   Core JS Files   -->
+<th:block th:insert="/components/admin/cssScriptComponent :: cssScript"/>
+<th:block th:insert="/components/admin/cssScript_2Component :: cssScript"/>
+<script>
+    function showPreview(event) {
+        if (event.target.files.length > 0) {
+            let src = URL.createObjectURL(event.target.files[0]);
+            let preview = document.getElementById("previewProductAvatar");
+            preview.src = src;
+        }
+    }
+</script>
+</body>
+
+</html>

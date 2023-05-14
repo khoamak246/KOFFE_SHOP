@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="utf-8"/>
+  <title>Admin - Order</title>
+  <th:block th:insert="/components/admin/cdnCssComponent :: cdnCss"/>
+</head>
+
+<body class="g-sidenav-show  bg-gray-200">
+<th:block th:insert="/components/admin/sidebarComponent :: sidebar"/>
+<main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+  <th:block th:insert="/components/admin/navbarComponent :: navbar"/>
+
+
+  <div class="container-fluid py-4">
+
+    <div class="row">
+      <div class="col-12">
+        <div class="card my-4">
+          <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+            <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+              <h6 class="text-white text-capitalize ps-3">Order</h6>
+            </div>
+          </div>
+          <div class="card-body px-0 pb-2">
+            <div class="table-responsive p-0">
+              <table class="table align-items-center mb-0">
+                <thead>
+                <tr>
+                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                   CODE
+                  </th>
+                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                    SIZE
+                  </th>
+                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                    TOTAL
+                  </th>
+                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                    DETAIL
+                  </th>
+                  <th class="text-secondary opacity-7"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <th:block th:each="order : ${orderList}">
+                  <form action="/admin/orderUpdateStatus" th:if="${!order.isStatus()}" method="post">
+                  <tr>
+                    <td>
+                      <div class="d-flex px-2 py-1">
+                        <h6 th:text="${order.getOrderId()}" class="mb-0 text-sm" style="padding-left: 10px"></h6>
+                      </div>
+                    </td>
+                    <td>
+                      <p th:text="${orderSize.get(orderList.indexOf(order)) + ' Ps'}" class="text-xs font-weight-bold mb-0">3 Ps</p>
+                    </td>
+                    <td class="align-middle text-center text-sm">
+                      <span th:text="${'$ ' + order.getTotal()}" class="badge badge-sm bg-gradient-success"></span>
+                    </td>
+                    <td class="align-middle text-center">
+                      <a th:href="@{'/admin/orderDetailMNG?orderId=' + ${order.getOrderId()}}" class="text-secondary text-xs font-weight-bold">Show</a>
+                    </td>
+                    <td class="align-middle">
+                      <button type="submit" class="bg-transparent border-0 text-secondary font-weight-bold text-xs"
+                              data-toggle="tooltip" name="orderId" th:value="${order.getOrderId()}">
+                        <svg th:if="${!order.isStatus()}" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="red" class="bi bi-cart-x-fill" viewBox="0 0 16 16">
+                          <path d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1H.5zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM7.354 5.646 8.5 6.793l1.146-1.147a.5.5 0 0 1 .708.708L9.207 7.5l1.147 1.146a.5.5 0 0 1-.708.708L8.5 8.207 7.354 9.354a.5.5 0 1 1-.708-.708L7.793 7.5 6.646 6.354a.5.5 0 1 1 .708-.708z"/>
+                        </svg>
+<!--                        <svg th:if="${order.isStatus()}" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="green"-->
+<!--                             class="bi bi-cart-check-fill" viewBox="0 0 16 16">-->
+<!--                          <path d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1H.5zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm-1.646-7.646-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L8 8.293l2.646-2.647a.5.5 0 0 1 .708.708z"/>-->
+<!--                        </svg>-->
+                      </button>
+                    </td>
+                  </tr>
+                  </form>
+                </th:block>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12">
+        <div class="card my-4">
+          <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+            <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+              <h6 class="text-white text-capitalize ps-3">Reservation</h6>
+            </div>
+          </div>
+          <div class="card-body px-0 pb-2">
+            <div class="table-responsive p-0">
+              <table class="table align-items-center mb-0">
+                <thead>
+                <tr>
+                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                    CUSTOMER NAME
+                  </th>
+                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                    PHONE NUMBER
+                  </th>
+                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                    AMOUNT PEOPLE
+                  </th>
+                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                    ARRIVED TIME
+                  </th>
+                  <th class="text-secondary opacity-7"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <th:block th:each="booking : ${bookingTable}">
+                  <form action="/admin/updateBookingTalbeStatus" th:if="${!booking.isStatus()}" method="post">
+                  <tr>
+                    <td>
+                      <div class="d-flex px-2 py-1">
+                        <h6 th:text="${booking.getName()}" class="mb-0 text-sm" style="padding-left: 10px"></h6>
+                      </div>
+                    </td>
+                    <td>
+                      <p th:text="${booking.getPhoneNumber()}" class="text-xs font-weight-bold mb-0"></p>
+                    </td>
+                    <td class="align-middle text-center text-sm">
+                      <span th:text="${booking.getAmountPeople()}" class="badge badge-sm bg-gradient-success"></span>
+                    </td>
+                    <td class="align-middle text-center">
+                      <span th:text="${booking.getArrivedTime().toString().split(' ')[0]}" class="text-secondary text-xs font-weight-bold"></span>
+                    </td>
+                    <td class="align-middle">
+                      <button type="submit" class="bg-transparent border-0 text-secondary font-weight-bold text-xs"
+                              data-toggle="tooltip" name="bookingTableId" th:value="${booking.getBookingTableId()}">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="red" class="bi bi-calendar-x-fill" viewBox="0 0 16 16">
+                          <path d="M4 .5a.5.5 0 0 0-1 0V1H2a2 2 0 0 0-2 2v1h16V3a2 2 0 0 0-2-2h-1V.5a.5.5 0 0 0-1 0V1H4V.5zM16 14V5H0v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2zM6.854 8.146 8 9.293l1.146-1.147a.5.5 0 1 1 .708.708L8.707 10l1.147 1.146a.5.5 0 0 1-.708.708L8 10.707l-1.146 1.147a.5.5 0 0 1-.708-.708L7.293 10 6.146 8.854a.5.5 0 1 1 .708-.708z"/>
+                        </svg>
+                      </button>
+                    </td>
+                  </tr>
+                  </form>
+                </th:block>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <th:block th:insert="/components/admin/footerComponent :: footer"/>
+  </div>
+</main>
+<!--   Core JS Files   -->
+<th:block th:insert="/components/admin/cssScriptComponent :: cssScript"/>
+<th:block th:insert="/components/admin/cssScript_2Component :: cssScript"/>
+</body>
+
+</html>

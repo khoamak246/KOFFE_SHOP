@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User Service Component</title>
+</head>
+<body>
+<!-- Service Start -->
+<div th:fragment="service" class="container-fluid pt-5">
+  <div class="container">
+    <div class="section-title">
+      <h4 class="text-primary text-uppercase" style="letter-spacing: 5px;">Our Services</h4>
+      <h1 class="display-4">Fresh & Organic Beans</h1>
+    </div>
+    <div class="row">
+      <div class="col-lg-6 mb-5">
+        <div class="row align-items-center">
+          <div class="col-sm-5">
+            <img class="img-fluid mb-3 mb-sm-0" th:src="@{/images/userPages/service-1.jpg}" alt="">
+          </div>
+          <div class="col-sm-7">
+            <h4><i class="fa fa-truck service-icon"></i>Fastest Door Delivery</h4>
+            <p class="m-0">Bring happiness with coffee wherever you need it</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6 mb-5">
+        <div class="row align-items-center">
+          <div class="col-sm-5">
+            <img class="img-fluid mb-3 mb-sm-0" th:src="@{/images/userPages/service-2.jpg}" alt="">
+          </div>
+          <div class="col-sm-7">
+            <h4><i class="fa fa-coffee service-icon"></i>Fresh Coffee Beans</h4>
+            <p class="m-0">Always ensure premium quality on each coffee bean, committed to bringing the leading value in terms of taste</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6 mb-5">
+        <div class="row align-items-center">
+          <div class="col-sm-5">
+            <img class="img-fluid mb-3 mb-sm-0" th:src="@{/images/userPages/service-3.jpg}" alt="">
+          </div>
+          <div class="col-sm-7">
+            <h4><i class="fa fa-award service-icon"></i>Best Quality Coffee</h4>
+            <p class="m-0">Always proud to always bring the most delicious and flavorful drinks. Committed to satisfying all tastes even the most fastidious</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6 mb-5">
+        <div class="row align-items-center">
+          <div class="col-sm-5">
+            <img class="img-fluid mb-3 mb-sm-0" th:src="@{/images/userPages/service-4.jpg}" alt="">
+          </div>
+          <div class="col-sm-7">
+            <h4><i class="fa fa-table service-icon"></i>Online Booking Easier</h4>
+            <p class="m-0">Enjoying first-class coffee has never been easier with an easy and accurate booking system</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Service End -->
+</body>
+</html>

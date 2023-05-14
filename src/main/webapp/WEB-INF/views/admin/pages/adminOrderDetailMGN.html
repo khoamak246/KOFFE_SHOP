@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Order Detail</title>
+  <meta th:fragment="cdnCss" name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link th:fragment="cdnCss" rel="icon" sizes="76x76" th:href="@{/images/admin-logo-ico.ico}">
+  <!--     Fonts and icons     -->
+  <link th:fragment="cdnCss" rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
+  <!-- Nucleo Icons -->
+  <link th:fragment="cdnCss" th:href="@{/css/nucleo-icons.css}" rel="stylesheet" />
+  <link th:fragment="cdnCss" th:href="@{/css/nucleo-svg.css}" rel="stylesheet" />
+  <!-- Font Awesome Icons -->
+  <script th:fragment="cdnCss" src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+  <!-- Material Icons -->
+  <link th:fragment="cdnCss" href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+  <!-- CSS Files -->
+  <link th:fragment="cdnCss" id="pagestyle" th:href="@{/css/material-dashboard.min.css}" rel="stylesheet" />
+  <style>
+    .gradient-custom {
+      /* fallback for old browsers */
+      background: #cd9cf2;
+
+      /* Chrome 10-25, Safari 5.1-6 */
+      background: -webkit-linear-gradient(to top left, rgba(205, 156, 242, 1), rgba(246, 243, 255, 1));
+
+      /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+      background: linear-gradient(to top left, rgba(205, 156, 242, 1), rgba(246, 243, 255, 1))
+    }
+  </style>
+</head>
+<body>
+<section class="h-100 gradient-custom" style="background-image: url(https://wallpapers.com/images/hd/bag-and-cup-of-coffee-01pjkia0sox3a71m.jpg); background-size: cover; background-repeat: no-repeat">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-lg-10 col-xl-8">
+        <div class="card" style="border-radius: 10px;">
+          <div class="card-header px-4 py-5">
+            <a th:href="@{'/admin/' + ${backPage}}" class="d-flex align-items-center text-decoration-none">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-left" viewBox="0 0 16 16">
+                <path d="M10 12.796V3.204L4.519 8 10 12.796zm-.659.753-5.48-4.796a1 1 0 0 1 0-1.506l5.48-4.796A1 1 0 0 1 11 3.204v9.592a1 1 0 0 1-1.659.753z"/>
+              </svg>
+              Back to profile!</a>
+          </div>
+          <div class="card-body p-4">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+              <p class="lead fw-normal mb-0" style="color: #a8729a;">Receipt</p>
+              <p class="small text-muted mb-0">Receipt Voucher : none</p>
+            </div>
+            <th:block th:each="order : ${orderItems}">
+              <div class="card shadow-0 border mb-4">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-md-2">
+                      <img th:src="@{'/images/userPages/' + ${order.getProductAvatar()}}"
+                           class="img-fluid" alt="Phone">
+                    </div>
+                    <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                      <p th:text="${order.getProductName()}" class="text-muted mb-0"></p>
+                    </div>
+                    <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                      <p th:text="${'Size: ' + order.getSizeDetail()}" class="text-muted mb-0 small"></p>
+                    </div>
+                    <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                      <p th:text="${'Qty: ' + order.getQuantity()}" class="text-muted mb-0 small"></p>
+                    </div>
+                    <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                      <p th:text="${'Price: ' + order.getTotal() / order.getQuantity()}" class="text-muted mb-0 small"></p>
+                    </div>
+                    <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                      <p th:text="${'$' + order.getTotal() }" class="text-muted mb-0 small"></p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </th:block>
+
+            <div class="d-flex justify-content-between pt-2">
+              <p class="fw-bold mb-0">Order Details</p>
+              <p class="text-muted mb-0"><span class="fw-bold me-4">Info</span></p>
+            </div>
+
+            <div class="d-flex justify-content-between pt-2">
+              <p class="text-muted mb-0">Customer Name : </p>
+              <p class="text-muted mb-0"><span th:text="${user.getFullName()}" class="fw-bold me-4"></span></p>
+            </div>
+
+            <div class="d-flex justify-content-between">
+              <p class="text-muted mb-0">Phone Number :</p>
+              <p class="text-muted mb-0"><span class="fw-bold me-4" th:text="${user.getPhoneNumber()}">GST 18%</span></p>
+            </div>
+
+            <div class="d-flex justify-content-between mb-5">
+              <p class="text-muted mb-0">Invoice Date: </p>
+              <p class="text-muted mb-0"><span th:text="${oder.getDate().toString().split(' ')[0]}" class="fw-bold me-4"></span></p>
+            </div>
+          </div>
+          <div class="card-footer border-0 px-4 py-5"
+               style="background-color: #ad794e; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;">
+            <h5 class="d-flex align-items-center justify-content-end text-white text-uppercase mb-0">Total
+              paid: <span th:text="${' $ ' + oder.getTotal()}" class="h2 mb-0 ms-2"></span></h5>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<th:block th:insert="/components/user/cssScriptComponents :: cssScript"></th:block>
+</body>
+</html>

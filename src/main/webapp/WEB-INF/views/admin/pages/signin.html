@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>Admin - Sign in</title>
+    <th:block th:insert="/components/admin/cdnCssComponent :: cdnCss"/>
+</head>
+
+<body class="bg-gray-200">
+<div class="container position-sticky z-index-sticky top-0">
+    <div class="row">
+        <div class="col-12"></div>
+    </div>
+</div>
+<main class="main-content mt-0">
+    <div class="page-header align-items-start min-vh-100"
+         style="background-image:
+         url('http://localhost:8080/images/adminPages/admin-signin-background.jpg');">
+        <span class="mask bg-gradient-dark opacity-6"></span>
+        <div class="container my-auto">
+            <div class="row">
+                <div class="col-lg-4 col-md-8 col-12 mx-auto">
+                    <div class="card z-index-0 fadeIn3 fadeInBottom">
+                        <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                            <div class="bg-gradient-primary shadow-primary border-radius-lg py-3 pe-1">
+                                <h4 class="text-white font-weight-bolder text-center mt-2 mb-0">
+                                    Sign in
+                                </h4>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <h6 th:if="${wrongCode == 400}" class="small text-danger text-center">OOP! Something wrong with your input account!</h6>
+                            <h6 th:if="${wrongCode == 401}" class="small text-danger text-center">OOP! This account had been blocked!</h6>
+                            <h6 th:if="${wrongCode == 402}" class="small text-danger text-center">OOP! Access denied!</h6>
+                            <form role="form" class="text-start" action="/admin/signin" method="post">
+                                <div class="input-group input-group-outline my-3">
+                                    <label class="form-label">Phone Number</label>
+                                    <input type="text" name="phoneNumber" class="form-control" autocomplete="off"/>
+                                </div>
+                                <div class="input-group input-group-outline mb-3">
+                                    <label class="form-label">Password</label>
+                                    <input type="password" class="form-control" name="password"/>
+                                </div>
+                                <div class="text-center">
+                                    <button
+                                            type="submit"
+                                            class="btn bg-gradient-primary w-100 my-4 mb-2"
+                                    >
+                                        Sign in
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<!--   Core JS Files   -->
+<th:block th:insert="/components/admin/cssScriptComponent :: cssScript"/>
+<!-- GitHub buttons -->
+<th:block th:insert="/components/admin/cssScript_2Component :: cssScript"/>
+</body>
+</html>

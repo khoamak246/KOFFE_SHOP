@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8"/>
+    <title>Admin - Tables</title>
+    <th:block th:insert="/components/admin/cdnCssComponent :: cdnCss"/>
+</head>
+
+<body class="g-sidenav-show  bg-gray-200">
+<th:block th:insert="/components/admin/sidebarComponent :: sidebar"/>
+<main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+    <th:block th:insert="/components/admin/navbarComponent :: navbar"/>
+    <div class="container-fluid py-4">
+        <div class="row">
+            <div class="col-12">
+                <div class="card my-4">
+                    <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                        <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                            <h6 class="text-white text-capitalize ps-3">Management Side</h6>
+                        </div>
+                    </div>
+                    <div class="card-body px-0 pb-2">
+                        <div class="table-responsive p-0">
+                            <table class="table align-items-center mb-0">
+                                <thead>
+                                <tr>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        FULL NAME
+                                    </th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                        PHONE NUMBER
+                                    </th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        ROLE
+                                    </th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        STATUS
+                                    </th>
+                                    <th class="text-secondary opacity-7"></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                <th:block th:each="user :${userList}" th:if="${currentUser.getRole() == 1}">
+                                    <form action="/admin/user/updateUserInfo" method="post" th:if="${user.getRole() != 4}">
+                                        <tr>
+                                            <td>
+                                                <input type="text" name="userId" th:value="${user.getUserId()}"
+                                                       hidden="hidden">
+                                                <div class="d-flex px-2 py-1">
+                                                    <div>
+                                                        <img th:src="${user != null && user.getAvatar() != null ? ('/images/userPages/' + user.getAvatar()) : '/images/userPages/default-avatar.jpg'}"
+                                                             class="avatar avatar-sm me-3 border-radius-lg" alt="user1">
+                                                    </div>
+                                                    <div class="d-flex flex-column justify-content-center">
+                                                        <h6 th:text="${user.getFullName()}" class="mb-0 text-sm"></h6>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <p th:text="${user.getPhoneNumber()}"
+                                                   class="text-xs font-weight-bold mb-0"></p>
+                                            </td>
+                                            <td class="align-middle text-center">
+                                                <select class="badge-sm text-white bg-gradient-warning rounded p-1"
+                                                        name="roleSelect">
+                                                    <option class="text-dark text-left"
+                                                            th:selected="${user.getRole() == 1}" value="1">ADMIN
+                                                    </option>
+                                                    <option class="text-dark text-left"
+                                                            th:selected="${user.getRole() == 2}" value="2">MANAGER
+                                                    </option>
+                                                    <option class="text-dark text-left"
+                                                            th:selected="${user.getRole() == 3}" value="3">STAFF
+                                                    </option>
+                                                    <option class="text-dark text-left"
+                                                            th:selected="${user.getRole() == 4}" value="4">CUSTOMER
+                                                    </option>
+                                                </select>
+                                            </td>
+                                            <td class="align-middle text-center text-sm">
+                                                <select th:class="${user.isStatus() ?
+                                                'badge-sm text-white rounded p-1 selectStatus bg-gradient-success' :
+                                                'badge-sm text-white rounded p-1 selectStatus bg-gradient-secondary'}"
+                                                        name="statusSelect">
+                                                    <option class="bg-gradient-success text-dark text-left text-"
+                                                            th:selected="${user.isStatus()}" value="1">ON
+                                                    </option>
+                                                    <option class="bg-gradient-secondary text-dark text-left"
+                                                            th:selected="${!user.isStatus()}" value="0">OFF
+                                                    </option>
+                                                </select>
+                                            </td>
+                                            <td class="align-middle">
+                                                <button
+                                                        type="submit"
+                                                        class="text-secondary font-weight-bold text-xs border-0 bg-transparent"
+                                                        data-toggle="tooltip" data-original-title="Edit user">
+                                                    Edit
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </form>
+                                </th:block>
+
+                                <th:block th:each="user :${userList}" th:if="${currentUser.getRole() != 1}">
+                                    <form action="/admin/user/updateUserInfo" method="post" th:if="${user.getRole() != 4 && user.getRole() != 1}">
+                                        <tr>
+                                            <td>
+                                                <input type="text" name="userId" th:value="${user.getUserId()}"
+                                                       hidden="hidden">
+                                                <div class="d-flex px-2 py-1">
+                                                    <div>
+                                                        <img th:src="${user != null && user.getAvatar() != null ? '/images/userPages/' + user.getAvatar() : '/images/userPages/default-avatar.jpg'}"
+                                                             class="avatar avatar-sm me-3 border-radius-lg" alt="user1">
+                                                    </div>
+                                                    <div class="d-flex flex-column justify-content-center">
+                                                        <h6 th:text="${user.getFullName()}" class="mb-0 text-sm"></h6>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <p th:text="${user.getPhoneNumber()}"
+                                                   class="text-xs font-weight-bold mb-0"></p>
+                                            </td>
+                                            <td class="align-middle text-center">
+                                                <select class="badge-sm text-white bg-gradient-warning rounded p-1"
+                                                        name="roleSelect" th:disabled="${user.getRole() == 2}">
+                                                    <option th:if="${user.getRole() == 2}" class="text-dark text-left"
+                                                            th:selected="${user.getRole() == 2}" value="2">MANAGER
+                                                    </option>
+                                                    <option class="text-dark text-left"
+                                                            th:selected="${user.getRole() == 3}" value="3">STAFF
+                                                    </option>
+                                                    <option class="text-dark text-left"
+                                                            th:selected="${user.getRole() == 4}" value="4">CUSTOMER
+                                                    </option>
+                                                </select>
+                                            </td>
+                                            <td class="align-middle text-center text-sm">
+                                                <select th:class="${user.isStatus() ?
+                                                'badge-sm text-white rounded p-1 selectStatus bg-gradient-success' :
+                                                'badge-sm text-white rounded p-1 selectStatus bg-gradient-secondary'}"
+                                                        name="statusSelect" th:disabled="${user.getRole() == 2}">
+                                                    <option class="bg-gradient-success text-dark text-left text-"
+                                                            th:selected="${user.isStatus()}" value="1">ON
+                                                    </option>
+                                                    <option class="bg-gradient-secondary text-dark text-left"
+                                                            th:selected="${!user.isStatus()}" value="0">OFF
+                                                    </option>
+                                                </select>
+                                            </td>
+                                            <td class="align-middle">
+                                                <button
+                                                        type="submit"
+                                                        class="text-secondary font-weight-bold text-xs border-0 bg-transparent"
+                                                        data-toggle="tooltip" data-original-title="Edit user" th:disabled="${user.getRole() == 2}">
+                                                    Edit
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </form>
+                                </th:block>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card my-4">
+                    <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                        <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                            <h6 class="text-white text-capitalize ps-3">User Side</h6>
+                        </div>
+                    </div>
+                    <div class="card-body px-0 pb-2">
+                        <div class="table-responsive p-0">
+                            <table class="table align-items-center mb-0">
+                                <thead>
+                                <tr>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        FULL NAME
+                                    </th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                        PHONE NUMBER
+                                    </th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        ROLE
+                                    </th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        STATUS
+                                    </th>
+                                    <th class="text-secondary opacity-7"></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <th:block th:each="user :${userList}">
+                                    <form action="/admin/user/updateUserInfo" method="post" th:if="${user.getRole() == 4}">
+                                        <tr>
+                                            <td>
+                                                <input type="text" name="userId" th:value="${user.getUserId()}"
+                                                       hidden="hidden">
+                                                <div class="d-flex px-2 py-1">
+                                                    <div>
+                                                        <img th:src="${user != null && user.getAvatar() != null ? '/images/userPages/' + user.getAvatar() : '/images/userPages/default-avatar.jpg'}"
+                                                             class="avatar avatar-sm me-3 border-radius-lg" alt="user1">
+                                                    </div>
+                                                    <div class="d-flex flex-column justify-content-center">
+                                                        <h6 th:text="${user.getFullName()}" class="mb-0 text-sm"></h6>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <p th:text="${user.getPhoneNumber()}"
+                                                   class="text-xs font-weight-bold mb-0"></p>
+                                            </td>
+                                            <td class="align-middle text-center">
+                                                <select class="badge-sm text-white bg-gradient-warning rounded p-1"
+                                                        name="roleSelect">
+                                                    <option class="text-dark text-left"
+                                                            th:selected="${user.getRole() == 3}" value="3">STAFF
+                                                    </option>
+                                                    <option class="text-dark text-left"
+                                                            th:selected="${user.getRole() == 4}" value="4">CUSTOMER
+                                                    </option>
+                                                </select>
+                                            </td>
+                                            <td class="align-middle text-center text-sm">
+                                                <select th:class="${user.isStatus() ?
+                                                'badge-sm text-white rounded p-1 selectStatus bg-gradient-success' :
+                                                'badge-sm text-white rounded p-1 selectStatus bg-gradient-secondary'}"
+                                                        name="statusSelect">
+                                                    <option class="bg-gradient-success text-dark text-left text-"
+                                                            th:selected="${user.isStatus()}" value="1">ON
+                                                    </option>
+                                                    <option class="bg-gradient-secondary text-dark text-left"
+                                                            th:selected="${!user.isStatus()}" value="0">OFF
+                                                    </option>
+                                                </select>
+                                            </td>
+                                            <td class="align-middle">
+                                                <button
+                                                        type="submit"
+                                                        class="text-secondary font-weight-bold text-xs border-0 bg-transparent"
+                                                        data-toggle="tooltip" data-original-title="Edit user">
+                                                    Edit
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </form>
+                                </th:block>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <th:block th:insert="/components/admin/footerComponent :: footer"/>
+    </div>
+</main>
+<!--   Core JS Files   -->
+<th:block th:insert="/components/admin/cssScriptComponent :: cssScript"/>
+<th:block th:insert="/components/admin/cssScript_2Component :: cssScript"/>
+<script>
+    $(".selectStatus").change(function (e) {
+        this.classList.remove("bg-gradient-success", "bg-gradient-secondary")
+        let selectValue = this.value;
+        if (selectValue === "1") {
+            this.classList.add("bg-gradient-success")
+        } else {
+            this.classList.add("bg-gradient-secondary")
+        }
+    })
+</script>
+</body>
+
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8"/>
+    <title>Admin - Comment</title>
+    <th:block th:insert="/components/admin/cdnCssComponent :: cdnCss"/>
+</head>
+
+<body class="g-sidenav-show  bg-gray-200">
+<th:block th:insert="/components/admin/sidebarComponent :: sidebar"/>
+<main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+    <th:block th:insert="/components/admin/navbarComponent :: navbar"/>
+
+
+    <div class="container-fluid py-4">
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card my-4">
+                    <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                        <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                            <h6 class="text-white text-capitalize ps-3">Comment</h6>
+                        </div>
+                    </div>
+                    <div class="card-body px-0 pb-2">
+                        <div class="table-responsive p-0">
+                            <table class="table align-items-center mb-0">
+                                <thead>
+                                <tr>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        FULL NAME
+                                    </th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                        EMAIL
+                                    </th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        SUBJECT
+                                    </th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        MESSAGE
+                                    </th>
+                                    <th class="text-secondary opacity-7"></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <th:block th:each="comment : ${comments}">
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex px-2 py-1">
+                                                    <h6 th:text="${comment.getCommentsFullName()}" class="mb-0 text-sm" style="padding-left: 10px"></h6>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <p th:text="${comment.getCommentsEmail()}" class="text-xs font-weight-bold mb-0">3 Ps</p>
+                                            </td>
+                                            <td class="align-middle text-center text-sm">
+                                                <p th:text="${comment.getCommentsSubject()}" class="text-xs font-weight-bold mb-0">3 Ps</p>
+                                            </td>
+                                            <td class="align-middle text-center">
+                                                <p th:text="${comment.getCommentsMessage()}" class="text-xs font-weight-bold mb-0">3 Ps</p>
+                                            </td>
+                                            <td class="align-middle">
+                                                <p th:text="${comment.getCommentsTime().toString().split(' ')[0]}" class="text-xs font-weight-bold mb-0">3 Ps</p>
+                                            </td>
+                                        </tr>
+                                </th:block>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <th:block th:insert="/components/admin/footerComponent :: footer"/>
+    </div>
+</main>
+<!--   Core JS Files   -->
+<th:block th:insert="/components/admin/cssScriptComponent :: cssScript"/>
+<th:block th:insert="/components/admin/cssScript_2Component :: cssScript"/>
+</body>
+
+</html>

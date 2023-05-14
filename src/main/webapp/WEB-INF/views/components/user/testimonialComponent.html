@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User Testimonial Component</title>
+</head>
+<body>
+<div th:fragment="testimonial" class="container-fluid py-5">
+  <div class="container">
+    <div class="section-title">
+      <h4 class="text-primary text-uppercase" style="letter-spacing: 5px;">Testimonial</h4>
+      <h1 class="display-4">Our Clients Say</h1>
+    </div>
+    <div class="owl-carousel testimonial-carousel">
+      <div class="testimonial-item">
+        <div class="d-flex align-items-center mb-3">
+          <img class="img-fluid" th:src="@{/images/userPages/testimonial-1.jpg}" alt="">
+          <div class="ml-3">
+            <h4>Abigail Bella</h4>
+            <i>Profession</i>
+          </div>
+        </div>
+        <p class="m-0">No place gives me a good coffee like in KOFFE</p>
+      </div>
+      <div class="testimonial-item">
+        <div class="d-flex align-items-center mb-3">
+          <img class="img-fluid" th:src="@{/images/userPages/testimonial-2.jpg}" alt="">
+          <div class="ml-3">
+            <h4>Christabel Ciara</h4>
+            <i>Customer</i>
+          </div>
+        </div>
+        <p class="m-0">Can only be summed up in one word "excellent". There are no better words to describe that word.</p>
+      </div>
+      <div class="testimonial-item">
+        <div class="d-flex align-items-center mb-3">
+          <img class="img-fluid" th:src="@{/images/userPages/testimonial-3.jpg}" alt="">
+          <div class="ml-3">
+            <h4>Donatella Ella</h4>
+            <i>Profession</i>
+          </div>
+        </div>
+        <p class="m-0">From the moment I walked to KOFFE. I already know what a good cup of coffee is really like.</p>
+      </div>
+      <div class="testimonial-item">
+        <div class="d-flex align-items-center mb-3">
+          <img class="img-fluid" th:src="@{/images/userPages/testimonial-4.jpg}" alt="">
+          <div class="ml-3">
+            <h4>Drusilla Helga</h4>
+            <i>Customer</i>
+          </div>
+        </div>
+        <p class="m-0">If someone asked me about the best coffee I've had. I will quietly open google map and share the location of KOFFE with them</p>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

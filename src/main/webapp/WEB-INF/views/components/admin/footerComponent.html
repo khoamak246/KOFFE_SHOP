@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Footer Component</title>
+</head>
+<body>
+<footer th:fragment="footer" class="footer py-4  ">
+  <div class="container-fluid">
+    <div class="row align-items-center justify-content-lg-between">
+      <div class="col-lg-4 mb-lg-0 mb-4">
+        <div class="copyright text-center text-sm text-muted text-lg-start">
+          ©
+          <script>
+            document.write(new Date().getFullYear())
+          </script>
+          ,
+          management <i class="fa fa-heart"></i>
+          <a href="/" class="font-weight-bold" target="_blank">KOFFE</a>
+        </div>
+      </div>
+      <div class="col-lg-3">
+        <ul class="nav nav-footer justify-content-center justify-content-lg-end">
+          <li class="nav-item">
+            <a href="/about" class="nav-link text-muted" target="_blank">KOFFE - BEST VALUE</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-lg-3">
+        <ul class="nav nav-footer justify-content-center justify-content-lg-end">
+          <li class="nav-item">
+            <a href="/menu" class="nav-link text-muted" target="_blank">MENU</a>
+          </li>
+          <li class="nav-item">
+            <a href="/reservation" class="nav-link text-muted"
+               target="_blank">RESERVATION</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</footer>
+</body>
+</html>
