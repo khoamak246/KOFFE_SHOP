@@ -23,7 +23,7 @@ public class CartController {
                             @RequestParam("quantity") int quantity,
                             HttpSession session) {
         User user = (User) session.getAttribute("user");
-        int userId =  user.getUserId();
+        int userId = user.getUserId();
         Cart cart = cartService.findCartByUserIdAndProductIdAndSizeId(userId, productId, sizeId);
         if (cart != null) {
             cartService.updatePlusQuantityToCart(userId, productId, sizeId, quantity);
@@ -42,9 +42,12 @@ public class CartController {
     }
 
     @PostMapping("/cart/update/minusByOne")
-    public String minusCartByOne(@RequestParam("cartId") String cartId) {
+    public String minusCartByOne(@RequestParam("cartId") String cartId, @RequestParam("quantity") int quantity) {
         int cId = Integer.parseInt(cartId);
-        cartService.updateMinusCartPlusQuantityByOne(cId);
+        if (quantity != 1)
+            cartService.updateMinusCartPlusQuantityByOne(cId);
+        else
+            cartService.deleteById(cId);
         return "redirect:/cart";
     }
 

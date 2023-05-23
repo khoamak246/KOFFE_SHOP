@@ -18,4 +18,5 @@ public interface IProductService extends IService<Product> {
     List<Product> findAllNotActiveProduct();
     void changeStatusProductById(int productId, boolean status);
     boolean isOnSale(int productId);
+    List<ProductDetail> getListActiveProductFromListProduct(List<Product> productList);
 }

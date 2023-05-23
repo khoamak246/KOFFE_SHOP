@@ -14,10 +14,10 @@ public class ConvertTimeStamp {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
             Date parsedDate = dateFormat.parse(inputString);
             timestamp = new java.sql.Timestamp(parsedDate.getTime());
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        return  timestamp;
+        return timestamp;
     }
 
     public static String handleInputDateTimeString(String date, String time) {
@@ -42,9 +42,16 @@ public class ConvertTimeStamp {
     private static String handleTimeString(String time) {
         String timeAfterFormat;
         if (time.contains(" AM")) {
-            timeAfterFormat =  time.replaceAll(" AM", ":00.000");
+            timeAfterFormat = time.replaceAll(" AM", ":00.000");
         } else {
-            timeAfterFormat =  time.replaceAll(" PM", ":00.000");
+            String tempTimeAfterFormat = time.replaceAll(" PM", "");
+            String[] tempTime_AfterFormat_Arr = tempTimeAfterFormat.split(":");
+            if (tempTime_AfterFormat_Arr[0].equals("12")) {
+                tempTime_AfterFormat_Arr[0] = "0";
+            } else {
+                tempTime_AfterFormat_Arr[0] = String.valueOf(Integer.parseInt(tempTime_AfterFormat_Arr[0]) + 12);
+            }
+            timeAfterFormat = tempTime_AfterFormat_Arr[0] + ":" + tempTime_AfterFormat_Arr[1] + ":00.000";
         }
         return timeAfterFormat;
     }

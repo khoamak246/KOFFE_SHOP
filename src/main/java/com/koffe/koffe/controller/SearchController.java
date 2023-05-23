@@ -49,7 +49,7 @@ public class SearchController {
     @GetMapping("/admin/userMNG/search")
     public String showUserSearch(Model model,
                                  @ModelAttribute("searchValue") String searchValue,
-                                 HttpSession session, RedirectAttributes redirectAttributes) {
+                                 HttpSession session) {
         User user = (User) session.getAttribute("user");
         if (user == null || user.getRole() == 4 || user.getRole() == 3) {
             return "redirect:/admin/signin";

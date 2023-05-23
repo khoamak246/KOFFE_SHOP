@@ -9,7 +9,7 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 public class ErrorController {
 
     @ExceptionHandler(NoHandlerFoundException.class)
-    public String handle(Exception ex) {
+    public String handleError404(Exception ex) {
         System.out.println(ex.toString());
         return "/user/pages/404";
     }

@@ -5,15 +5,12 @@ import com.koffe.koffe.model.*;
 import com.koffe.koffe.service.*;
 import com.koffe.koffe.service.serviceIMPL.*;
 import com.koffe.koffe.utils.HideInfo;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,27 +28,8 @@ public class UserRouterController {
     public String showHomePage(Model model, HttpSession session) {
         User user = (User) session.getAttribute("user");
         List<Product> productList = productService.findAllProductsBySize(1);
-        List<ProductDetail> productDetailList = new ArrayList<>();
-        for (Product product: productList) {
-            boolean isOnSaleProduct = productService.isOnSale(product.getProductId());
-            if (isOnSaleProduct) {
-                List<Product> products = productService.findByIdProduct(product.getProductId());
-                if (!products.isEmpty()){
-                    int productId = products.get(0).getProductId();
-                    String name = products.get(0).getProductName();
-                    String description = products.get(0).getProductDescription();
-                    String avatar = products.get(0).getProductAvatar();
-                    int priceS = products.get(0).getPrice();
-                    int priceM = products.get(1).getPrice();
-                    int priceL = products.get(2).getPrice();
-                    ProductDetail tempProductDetail = new ProductDetail(productId, name, description, avatar, priceS, priceM, priceL);
-                    productDetailList.add(tempProductDetail);
-                }
-            }
-        }
-
+        List<ProductDetail> productDetailList = productService.getListActiveProductFromListProduct(productList);
         model.addAttribute("user", user);
-//        model.addAttribute("product", productList);
         model.addAttribute("product", productDetailList);
         List<CartDetail> userCart = new ArrayList<>();
         if (user != null) {
@@ -79,27 +57,9 @@ public class UserRouterController {
     public String showMenuPage(Model model, HttpSession session) {
         User user = (User) session.getAttribute("user");
         List<Product> productList = productService.findAllProductsBySize(1);
-        List<ProductDetail> productDetailList = new ArrayList<>();
-        for (Product product: productList) {
-            boolean isOnSaleProduct = productService.isOnSale(product.getProductId());
-            if (isOnSaleProduct) {
-                List<Product> products = productService.findByIdProduct(product.getProductId());
-                if (!products.isEmpty()){
-                    int productId = products.get(0).getProductId();
-                    String name = products.get(0).getProductName();
-                    String description = products.get(0).getProductDescription();
-                    String avatar = products.get(0).getProductAvatar();
-                    int priceS = products.get(0).getPrice();
-                    int priceM = products.get(1).getPrice();
-                    int priceL = products.get(2).getPrice();
-                    ProductDetail tempProductDetail = new ProductDetail(productId, name, description, avatar, priceS, priceM, priceL);
-                    productDetailList.add(tempProductDetail);
-                }
-            }
-        }
+        List<ProductDetail> productDetailList = productService.getListActiveProductFromListProduct(productList);
 
         model.addAttribute("user", user);
-//        model.addAttribute("product", productList);
         model.addAttribute("product", productDetailList);
         List<CartDetail> userCart = new ArrayList<>();
         if (user != null) {
@@ -152,9 +112,9 @@ public class UserRouterController {
                            HttpSession session) {
         User user = (User) session.getAttribute("user");
         model.addAttribute("user", user);
-        List<CartDetail> userCart = new ArrayList<>();
-        int totalPrice = 0;
-        Address address = null;
+        List<CartDetail> userCart;
+        int totalPrice;
+        Address address;
         if (user != null) {
             userCart = cartService.findAllCartDetailByUserId(user.getUserId());
             totalPrice = cartService.getTotalPriceOfUserId(user.getUserId());
@@ -172,7 +132,6 @@ public class UserRouterController {
     @GetMapping("/profile")
     public String showProfile(Model model, HttpSession session) {
         User user = (User) session.getAttribute("user");
-
         if (user != null) {
             model.addAttribute("user", user);
             List<Order> orderList = orderService.findAllOrderByUserId(user.getUserId());

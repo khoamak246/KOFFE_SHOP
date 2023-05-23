@@ -64,7 +64,7 @@
                                             </td>
                                             <td class="align-middle text-center">
                                                 <select class="badge-sm text-white bg-gradient-warning rounded p-1"
-                                                        name="roleSelect">
+                                                        name="roleSelect" th:disabled="${user.getRole() == 1}">
                                                     <option class="text-dark text-left"
                                                             th:selected="${user.getRole() == 1}" value="1">ADMIN
                                                     </option>
@@ -83,7 +83,7 @@
                                                 <select th:class="${user.isStatus() ?
                                                 'badge-sm text-white rounded p-1 selectStatus bg-gradient-success' :
                                                 'badge-sm text-white rounded p-1 selectStatus bg-gradient-secondary'}"
-                                                        name="statusSelect">
+                                                        name="statusSelect" th:disabled="${user.getRole() == 1}">
                                                     <option class="bg-gradient-success text-dark text-left text-"
                                                             th:selected="${user.isStatus()}" value="1">ON
                                                     </option>
@@ -93,7 +93,7 @@
                                                 </select>
                                             </td>
                                             <td class="align-middle">
-                                                <button
+                                                <button th:if="${user.getRole() != 1}"
                                                         type="submit"
                                                         class="text-secondary font-weight-bold text-xs border-0 bg-transparent"
                                                         data-toggle="tooltip" data-original-title="Edit user">
@@ -152,10 +152,10 @@
                                                 </select>
                                             </td>
                                             <td class="align-middle">
-                                                <button
+                                                <button th:if="${user.getRole() != 2}"
                                                         type="submit"
                                                         class="text-secondary font-weight-bold text-xs border-0 bg-transparent"
-                                                        data-toggle="tooltip" data-original-title="Edit user" th:disabled="${user.getRole() == 2}">
+                                                        data-toggle="tooltip" data-original-title="Edit user" >
                                                     Edit
                                                 </button>
                                             </td>

@@ -5,6 +5,7 @@
       <map>
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/admin/index.html" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/admin" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/admin/pages/orderMNG.html" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/admin/pages" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/admin/pages/productMNG.html" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/admin/pages" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/admin/pages/signin.html" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/admin/pages" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/admin/pages/tables.html" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/admin/pages" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/admin/pages/userMNG.html" value="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/admin/pages" />

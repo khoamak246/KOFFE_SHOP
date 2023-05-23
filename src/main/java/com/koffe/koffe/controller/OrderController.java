@@ -52,7 +52,7 @@ public class OrderController {
             model.addAttribute("userCart", userCart);
             model.addAttribute("userAddress", address);
             model.addAttribute("total", totalPrice);
-            model.addAttribute("errorMessage", "error");
+            model.addAttribute("errorMessage", 400);
             return "/user/pages/cart";
         }
 

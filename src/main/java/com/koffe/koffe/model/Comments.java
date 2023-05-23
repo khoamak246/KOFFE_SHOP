@@ -2,7 +2,7 @@ package com.koffe.koffe.model;
 
 import java.sql.Timestamp;
 
-public class Comments {
+public class  Comments {
     private int commentsId;
     private String commentsFullName;
     private String commentsEmail;

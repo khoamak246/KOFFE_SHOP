@@ -63,15 +63,15 @@
                     </svg>
                     Home
                 </a>
-                <div style="position: absolute; top: 30%; left: 25%; text-space: 5px" class="d-flex flex-column justify-content-center align-items-center">
+                <div th:style="${errorMessage == 400 ? 'position: absolute; top: 30%; left: 25%; text-space: 5px' : 'position: absolute; top: 30%; left: 35%; text-space: 5px'}" class="d-flex flex-column justify-content-center align-items-center">
                     <h1>Nothing to see here!</h1>
-                    <h4 th:if="${errorMessage == null}" class="text-danger text-center">OOP! Your cart currently
+                    <h4 th:if="${errorMessage == 400}" class="text-danger text-center">OOP! Your cart currently
                         have
                         non-commercial products!</h4>
-                    <h4 th:if="${errorMessage == null}" class="text-danger text-center">We have removed them from
+                    <h4 th:if="${errorMessage == 400}" class="text-danger text-center">We have removed them from
                         the
                         cart!</h4>
-                    <h4 th:if="${errorMessage == null}" class="text-danger text-center">Sorry for the
+                    <h4 th:if="${errorMessage == 400}" class="text-danger text-center">Sorry for the
                         inconvenience!</h4>
                 </div>
                 <img src="https://cdn.dribbble.com/users/122393/screenshots/6911348/cristelrossignolbn2-dog.jpg">
@@ -90,13 +90,13 @@
                                         <h6 th:text="${userCart.size() > 1 ? userCart.size() + ' items' : userCart.size() + ' item'}"
                                             class="mb-0 text-muted">3 items</h6>
                                     </div>
-                                    <h4 th:if="${errorMessage != null}" class="text-danger text-center small">OOP! Your
+                                    <h4 th:if="${errorMessage == 400}" class="text-danger text-center small">OOP! Your
                                         cart currently have
                                         non-commercial products!</h4>
-                                    <h4 th:if="${errorMessage != null}" class="text-danger text-center small">We have
+                                    <h4 th:if="${errorMessage == 400}" class="text-danger text-center small">We have
                                         removed them from the
                                         cart!</h4>
-                                    <h4 th:if="${errorMessage != null}" class="text-danger text-center small">Sorry for
+                                    <h4 th:if="${errorMessage == 400}" class="text-danger text-center small">Sorry for
                                         the inconvenience!</h4>
                                     <div class="w-100 d-flex flex-lg-row flex-column justify-content-lg-between justify-content-start align-items-lg-center align-items-start gap-2">
                                         <input type="text" name="fullName" th:value="${user.getFullName()}"
@@ -141,7 +141,7 @@
                                                            hidden="hidden">
                                                     <input id="form0" min="1" name="quantity"
                                                            th:value="${cart.getQuantity()}" type="number"
-                                                           style="width: 40px" disabled/>
+                                                           style="width: 40px" readonly/>
 
                                                     <button class="btn btn-link px-2" type="submit"
                                                             formaction="/cart/update/plusByOne" formmethod="post">
@@ -263,7 +263,7 @@
 
     $("#checkOutBtn").click(function (e) {
         e.preventDefault();
-        let textAreaPattern = /^([A-za-z0-9.!);]+\s){1,}[a-zA-z.!);?]+$/;
+        let textAreaPattern = /^([A-za-z0-9.!();',]+\s){1,}[a-zA-z.!);?]+$/;
         let submitAddress = $("#submitAddress").val();
         if (!textAreaPattern.test(submitAddress)) {
             $("#addressMessage").text("Some thing wrong with your address!");
